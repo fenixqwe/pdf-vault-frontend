@@ -78,7 +78,7 @@ function SignIn() {
                             </div>
                             <div className={"auth-btn"}>
                                 <Button onClick={signIn} disabled={inProgress}
-                                    className={"w-full text-white text-[14px] rounded-[10px] !border-none !transition-all !duration-500 h-[45px] !bg-[#D85888] hover:!bg-[#847BEF]"}>
+                                    className={"w-full cursor-pointer text-white text-[14px] rounded-[10px] !border-none !transition-all !duration-500 h-[45px] !bg-[#D85888] hover:!bg-[#847BEF]"}>
                                     Sign in
                                 </Button>
                             </div>
