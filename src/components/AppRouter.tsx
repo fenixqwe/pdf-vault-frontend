@@ -1,43 +1,31 @@
-import {Routes, Route} from "react-router-dom";
-import {publicRoutes} from "@/router";
-import React from "react";
+import {Route, Routes} from "react-router-dom";
+import {useAppSelector} from "@/hooks/redux.ts";
+import {privateRoutes, publicRoutes, type RouteItem} from "@/router";
 
-interface RouteItem {
-    path: string;
-    component: React.ComponentType;
-    index?: boolean;
-    children?: RouteItem[];
-}
-
-function AppRouter() {
+const AppRouter = () => {
+    const isAuth = useAppSelector((state) => state.user.isAuth);
 
     const getRouteFromTree = (routeTree: RouteItem[]) => {
-        return routeTree.map((route) => {
-            const Component = route.component;
-            return (
-                <Route path={route.path} element={<Component />} key={route.path}>
-                    {route.children &&
-                        route.children.map((routeChild, index) => {
-                            const ChildComponent = routeChild.component;
-                            return (
-                                <Route
-                                    path={routeChild.path}
-                                    index={routeChild.index}
-                                    element={<ChildComponent />}
-                                    key={routeChild.path + `_${index}`}
-                                />
-                            );
-                        })}
-                </Route>
-            );
-        });
-    };
+        return routeTree.map((route) => (
+            <Route path={route.path} element={route.component} key={route.path}>
+                {route.children
+                    && route.children.map((routeChild, index) => (
+                        <Route path={routeChild.path} index={routeChild.index}
+                               element={routeChild.component} key={routeChild.path + `_${index}`}/>
+                    ))}
+            </Route>
+        ));
+    }
 
-    return (
+    return isAuth ? (
+        <Routes>
+            {getRouteFromTree(privateRoutes)}
+        </Routes>
+    ) : (
         <Routes>
             {getRouteFromTree(publicRoutes)}
         </Routes>
     );
-}
+};
 
 export default AppRouter;

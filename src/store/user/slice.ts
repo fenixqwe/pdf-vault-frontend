@@ -4,7 +4,7 @@ import type {User} from "@/models/User.ts";
 
 const initialState: UserState = {
     isAuth: false,
-    userData: {}
+    userData: null
 };
 
 const slice = createSlice({
@@ -13,6 +13,7 @@ const slice = createSlice({
     reducers: {
         changeIsAuth(state, action: PayloadAction<boolean>) {
             localStorage.setItem("auth", action.payload.toString());
+            console.log(action.payload);
             state.isAuth = action.payload;
         },
         changeUser: (state, action: PayloadAction<User>) => {
@@ -25,7 +26,7 @@ const slice = createSlice({
             localStorage.removeItem('auth');
             state.isAuth = false;
             localStorage.removeItem('user');
-            state.userData = {};
+            state.userData = null;
         }
     }
 })
