@@ -13,7 +13,6 @@ const slice = createSlice({
     reducers: {
         changeIsAuth(state, action: PayloadAction<boolean>) {
             localStorage.setItem("auth", action.payload.toString());
-            console.log(action.payload);
             state.isAuth = action.payload;
         },
         changeUser: (state, action: PayloadAction<User>) => {

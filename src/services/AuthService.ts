@@ -1,4 +1,4 @@
-import $api from "@/http";
+import $apiUser from "@/http/apiUser.ts";
 
 export default class AuthService {
     static headers = {
@@ -9,6 +9,6 @@ export default class AuthService {
         const options = {headers: this.headers};
         const credentials = {"email": email, "password": password};
 
-        return $api.post('api/auth/login', credentials, options);
+        return $apiUser.post('api/auth/login', credentials, options);
     }
 }
