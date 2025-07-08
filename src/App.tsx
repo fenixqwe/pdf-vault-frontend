@@ -3,6 +3,7 @@ import AppRouter from "@/components/AppRouter.tsx";
 import {useEffect, useState} from "react";
 import {useActionCreators} from "@/hooks/redux.ts";
 import {userActions} from "@/store/user/slice.ts";
+import {Toaster} from "@/components/ui/sonner.tsx";
 
 function App() {
     const userAction = useActionCreators(userActions);
@@ -28,6 +29,7 @@ function App() {
       <Router>
           <AppRouter />
       </Router>
+        <Toaster />
     </div>
   )
 }

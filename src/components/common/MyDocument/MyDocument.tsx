@@ -8,6 +8,9 @@ import DocumentService from "@/services/DocumentService.ts";
 import type {Documents} from "@/models/Document.ts";
 import {Dialog, DialogContent, DialogTitle} from "@/components/ui/dialog.tsx";
 import {useEffect, useState} from "react";
+import {toast} from "sonner";
+import {useActionCreators} from "@/hooks/redux.ts";
+import {documentsActions} from "@/store/documents/slice.ts";
 
 interface MyDocumentProps {
     doc: Documents;
@@ -15,6 +18,8 @@ interface MyDocumentProps {
 
 function MyDocument(props: MyDocumentProps) {
     const {doc} = props;
+
+    const documentsAction = useActionCreators(documentsActions);
 
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -35,23 +40,35 @@ function MyDocument(props: MyDocumentProps) {
     }, [isDialogOpen]);
 
     async function downloadDocument() {
-        try {
-            const response = await DocumentService.downloadDocument(doc.document_id);
+        const downloadPromise = () => new Promise(async (resolve, reject) => {
+            try {
+                const response = await DocumentService.downloadDocument(doc.document_id);
 
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            const url = window.URL.createObjectURL(blob);
+                const blob = new Blob([response.data], {
+                    type: response.headers['content-type'],
+                });
+                const url = window.URL.createObjectURL(blob);
 
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${doc.name || 'document'}.pdf`;
-            document.body.appendChild(link);
-            link.click();
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${doc.name || 'document'}.pdf`;
+                document.body.appendChild(link);
+                link.click();
 
-            link.remove();
-            window.URL.revokeObjectURL(url);
-        } catch (e) {
-            console.log(e)
-        }
+                link.remove();
+                window.URL.revokeObjectURL(url);
+
+                resolve({ name: doc.name });
+            } catch (e: any) {
+                reject("Unknown error while downloading document");
+            }
+        });
+
+        toast.promise(downloadPromise(), {
+            loading: 'Downloading document...',
+            success: (data: any) => `Document "${data.name}" downloaded successfully`,
+            error: (errorMessage) => errorMessage,
+        });
     }
 
     async function handlePreview() {
@@ -65,9 +82,29 @@ function MyDocument(props: MyDocumentProps) {
             setPreviewUrl(url);
             setIsDialogOpen(true);
         } catch (e) {
-            console.log(e)
+            toast.error("Error getting document preview");
         }
     }
+
+    async function handleDeleteDocument() {
+        const deleteDocPromise = () => new Promise(async (resolve, reject) => {
+            try {
+                await DocumentService.deleteDocument(doc.document_id);
+
+                documentsAction.deleteDocument(doc.document_id);
+                resolve({ name: doc.name });
+            } catch (e: any) {
+                reject(e.response.message)
+            }
+        });
+
+        toast.promise(deleteDocPromise(), {
+            loading: 'Deleting document...',
+            success: (data: any) => `Document "${data.name}" deleted successfully`,
+            error: (errorMessage) => errorMessage,
+        });
+    }
+
     return (
         <>
             <div onClick={downloadDocument}
@@ -91,7 +128,7 @@ function MyDocument(props: MyDocumentProps) {
                                 <DropdownMenuItem className={"cursor-pointer"} onClick={handlePreview}>
                                     Preview
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className={"cursor-pointer"}>
+                                <DropdownMenuItem className={"cursor-pointer"} onClick={handleDeleteDocument}>
                                     Delete
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
@@ -114,12 +151,12 @@ function MyDocument(props: MyDocumentProps) {
                 <div
                     className={"document-info-block basis-[30%] flex items-center justify-center p-[15px] box-border bg-[#111827]"}>
                     <div className={"document-info font-bold"}>
-                        <h4 className={"whitespace-nowrap max-w-[300px] overflow-hidden text-ellipsis transition-colors duration-300 text-[#F3F4F6]"}>{doc.name}</h4>
+                        <h4 className={"whitespace-nowrap max-w-[300px] overflow-hidden text-ellipsis transition-colors duration-300 text-[#F3F4F6] max-[400px]:max-w-[200px] max-[350px]:max-w-[140px]"}>{doc.name}</h4>
                     </div>
                 </div>
             </div>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent aria-describedby={undefined} style={{ width: "90vw", maxWidth: "1000px" }}>
+                <DialogContent aria-describedby={undefined} style={{ width: "90vw", maxWidth: "1000px" }} showCloseButton={false}>
                     <DialogTitle className={"text-[35px] flex justify-center items-center"}>Preview</DialogTitle>
                     <div>
                         {previewUrl && (

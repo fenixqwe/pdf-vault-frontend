@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import HeaderBar from "@/components/pages/header/HeaderBar.tsx";
+import HeaderBar from "@/components/common/header/HeaderBar.tsx";
 
 function Page() {
 

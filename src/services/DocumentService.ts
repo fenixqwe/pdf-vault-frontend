@@ -7,13 +7,13 @@ export default class DocumentService {
     };
 
     static async getAllUserDocuments(searchString: string) {
-        const options = {headers: this.headers};
+        const options: AxiosRequestConfig = {headers: this.headers};
 
         return $apiDoc.get(`api/documents/getAllUsersDocuments?searchString=${searchString}`, options);
     }
 
     static async getCertainUserDocuments(userId: string, searchString: string) {
-        const options = {headers: this.headers};
+        const options: AxiosRequestConfig = {headers: this.headers};
 
         return $apiDoc.get(`api/documents/getCertainUserDocuments/${userId}?searchString=${searchString}`, options);
     }
@@ -24,9 +24,21 @@ export default class DocumentService {
         return $apiDoc.get(`api/documents/downloadDocument/${documentId}`, options);
     }
 
+    static async deleteDocument(documentId: string) {
+        const options: AxiosRequestConfig = {headers: this.headers};
+
+        return $apiDoc.delete(`api/documents/deleteDocument/${documentId}`, options);
+    }
+
     static async previewDocument(documentId: string) {
         const options: AxiosRequestConfig = {headers: this.headers, responseType: 'blob'};
 
         return $apiDoc.get(`api/documents/previewDocument/${documentId}`, options);
+    }
+
+    static async uploadDocument(formData: FormData) {
+        const options: AxiosRequestConfig = {headers: {'Content-Type': 'multipart/form-data'}};
+
+        return $apiDoc.post(`api/documents/uploadDocument`, formData, options);
     }
 }
