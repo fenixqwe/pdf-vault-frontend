@@ -20,12 +20,12 @@ function CreateUserModal(props: CreateUserModalProps) {
     const adminUsersAction = useActionCreators(adminUsersActions);
 
     const createFormSchema = z.object({
-        name: z.string().min(2, "Имя должно содержать минимум 2 символа").max(50),
-        email: z.string().email("Неверный формат email"),
+        name: z.string().min(2, "The name must contain a minimum of 2 characters").max(50),
+        email: z.string().email("Incorrect email format"),
         number: z.string().optional().refine(val => !val || /^\+380\d{9}$/.test(val), {
-            message: "Номер должен быть в формате +380XXXXXXXXX",
+            message: "The number should be in the format +380XXXXXXXXXXXXXXX",
         }),
-        password: z.string().min(6, "Пароль должен содержать минимум 6 символов").max(50, "Пароль слишком длинный"),
+        password: z.string().min(6, "Password must contain a minimum of 6 characters").max(50, "Password is too long"),
     });
 
     const form = useForm<z.infer<typeof createFormSchema>>({
