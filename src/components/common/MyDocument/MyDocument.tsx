@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import {toast} from "sonner";
 import {useActionCreators} from "@/hooks/redux.ts";
 import {documentsActions} from "@/store/documents/slice.ts";
+import MyAlertDialog from "@/components/common/MyAlertDialog/MyAlertDialog.tsx";
 
 interface MyDocumentProps {
     doc: Documents;
@@ -23,6 +24,7 @@ function MyDocument(props: MyDocumentProps) {
 
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
     useEffect(() => {
         let timeout: number | null = null;
@@ -86,18 +88,18 @@ function MyDocument(props: MyDocumentProps) {
         }
     }
 
+    const deleteDocPromise = () => new Promise(async (resolve, reject) => {
+        try {
+            await DocumentService.deleteDocument(doc.document_id);
+
+            documentsAction.deleteDocument(doc.document_id);
+            resolve({ name: doc.name });
+        } catch (e: any) {
+            reject(e.response.message)
+        }
+    });
+
     async function handleDeleteDocument() {
-        const deleteDocPromise = () => new Promise(async (resolve, reject) => {
-            try {
-                await DocumentService.deleteDocument(doc.document_id);
-
-                documentsAction.deleteDocument(doc.document_id);
-                resolve({ name: doc.name });
-            } catch (e: any) {
-                reject(e.response.message)
-            }
-        });
-
         toast.promise(deleteDocPromise(), {
             loading: 'Deleting document...',
             success: (data: any) => `Document "${data.name}" deleted successfully`,
@@ -128,7 +130,7 @@ function MyDocument(props: MyDocumentProps) {
                                 <DropdownMenuItem className={"cursor-pointer"} onClick={handlePreview}>
                                     Preview
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className={"cursor-pointer"} onClick={handleDeleteDocument}>
+                                <DropdownMenuItem className={"cursor-pointer"} onClick={() => setIsDeleteDialogOpen(true)}>
                                     Delete
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
@@ -155,6 +157,9 @@ function MyDocument(props: MyDocumentProps) {
                     </div>
                 </div>
             </div>
+            <MyAlertDialog title={'Are you absolutely sure?'}
+                           description={'This will permanently delete this document from our servers'}
+                           continueFunction={handleDeleteDocument}  open={isDeleteDialogOpen} changeIsOpen={setIsDeleteDialogOpen}/>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent aria-describedby={undefined} style={{ width: "90vw", maxWidth: "1000px" }} showCloseButton={false}>
                     <DialogTitle className={"text-[35px] flex justify-center items-center"}>Preview</DialogTitle>

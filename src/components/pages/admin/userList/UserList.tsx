@@ -37,7 +37,7 @@ function UserList(props: UserListProps) {
 
     return (
         <div
-            className={"documents-list relative grow overflow-scroll h-[400px] grid justify-start gap-[20px] [grid-template-columns:repeat(auto-fill,minmax(300px,1fr))] [grid-auto-rows:auto] max-[400px]:[grid-template-columns:repeat(auto-fill,minmax(200px,1fr))]"}>
+            className={"documents-list relative grow overflow-scroll grid justify-start gap-[20px] [grid-template-columns:repeat(auto-fill,minmax(300px,1fr))] [grid-template-rows:repeat(auto-fit,270px)] max-[400px]:[grid-template-columns:repeat(auto-fill,minmax(200px,1fr))]"}>
             {isLoading ? (
                 <div className="absolute inset-0 z-10 flex items-center justify-center">
                     <LoaderCircle className="animate-spin w-20 h-20 text-indigo-500 translate-y-[2px]"/>

@@ -71,7 +71,7 @@ function EditUserModal(props: EditUserModalProps) {
             changedValues.user_id = userData.user_id;
             adminUsersAction.updateUser(response.data.data);
             onCloseModal();
-            console.log(response)
+
             resolve(response.data.message)
         } catch (e: any) {
             reject(e.response.data.message);
@@ -95,11 +95,9 @@ function EditUserModal(props: EditUserModalProps) {
             }
         }
 
-        console.log('Отправляемые данные:', changedValues);
-
         toast.promise(editUserPromise(changedValues), {
             loading: 'Deleting user...',
-            success: () => `User "${userData.email}" was deleted successfully`,
+            success: () => `User "${userData.email}" was updated successfully`,
             error: (errorMessage) => errorMessage,
         });
     }
