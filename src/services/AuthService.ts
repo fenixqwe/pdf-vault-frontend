@@ -1,5 +1,12 @@
 import $apiUser from "@/http/apiUser.ts";
 
+interface RegUserData {
+    name: string;
+    email: string;
+    number?: string;
+    password: string;
+}
+
 export default class AuthService {
     static headers = {
         'Content-Type': 'application/json'
@@ -10,5 +17,17 @@ export default class AuthService {
         const credentials = {"email": email, "password": password};
 
         return $apiUser.post('api/auth/login', credentials, options);
+    }
+
+    static async registration(credentials: RegUserData) {
+        const options = {headers: this.headers};
+
+        return $apiUser.post('api/auth/register', credentials, options);
+    }
+
+    static async logout(sessionId: string) {
+        const options = {headers: this.headers};
+
+        return $apiUser.post(`api/auth/logout?sessionId=${sessionId}`, options);
     }
 }

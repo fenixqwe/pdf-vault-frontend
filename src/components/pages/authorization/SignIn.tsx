@@ -5,6 +5,7 @@ import logo from "@/assets/pdf_logo.svg"
 import {Button} from "@/components/ui/button.tsx";
 import {useState} from "react";
 import AuthService from "@/services/AuthService.ts";
+import MyInput from "@/components/common/MyInput/MyInput.tsx";
 
 function SignIn() {
     const [email, setEmail] = useState("");
@@ -21,9 +22,9 @@ function SignIn() {
 
             localStorage.setItem("accessToken", response.data.data.tokens.access_token);
             localStorage.setItem("refreshToken", response.data.data.tokens.refresh_token);
-            localStorage.setItem("sessionId", response.data.data.sessionId);
 
             userAction.changeIsAuth(true);
+            userAction.changeSession(response.data.data.sessionId);
             userAction.changeUser({
                 user_id: response.data.data.user_id,
                 name: response.data.data.name,
@@ -60,22 +61,8 @@ function SignIn() {
                             </div>
                         </div>
                         <div className={"sign-in-form mb-[15px]"}>
-                            <div className={"auth-input flex flex-col mb-[10px]"}>
-                                <label htmlFor="loginInput"
-                                       className={"text-[15px] font-bold mb-[10px] text-left text-[#636363]"}>
-                                    Email Address
-                                </label>
-                                <input type="text" id="loginInput" name="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                                       className={"rounded-[8px] border-none px-2 py-3 outline-none text-sm bg-[#EBEBEB] text-[#000000]"}/>
-                            </div>
-                            <div className={"auth-input flex flex-col mb-[15px]"}>
-                                <label htmlFor="passwordInput"
-                                       className={"text-[15px] font-bold mb-[10px] text-left text-[#636363]"}>
-                                    Password
-                                </label>
-                                <input type="password" id="passwordInput" name="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                                       className={"rounded-[8px] border-none px-2 py-3 outline-none text-sm bg-[#EBEBEB] text-[#000000]"}/>
-                            </div>
+                            <MyInput label={'Email Address'} value={email} changeValue={setEmail} id={"loginInput"} type={"text"} name={"email"} />
+                            <MyInput label={'Password'} value={password} changeValue={setPassword} id={"passwordInput"} type={"password"} name={"password"} />
                             <div className={"auth-btn"}>
                                 <Button onClick={signIn} disabled={inProgress}
                                     className={"w-full cursor-pointer text-white text-[14px] rounded-[10px] !border-none !transition-all !duration-500 h-[45px] !bg-[#D85888] hover:!bg-[#847BEF]"}>

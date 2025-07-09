@@ -2,7 +2,6 @@ import MyDocument from "@/components/common/MyDocument/MyDocument.tsx";
 import React, {useEffect, useRef, useState} from "react";
 import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
 import {UserRoles} from "@/models/User.ts";
-import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import uploadIcon from "@/assets/upload.svg";
 import DocumentService from "@/services/DocumentService.ts";
@@ -10,6 +9,7 @@ import {LoaderCircle} from "lucide-react";
 import NoElementYet from "@/components/common/NoElementYet/NoElementYet.tsx";
 import {toast} from "sonner";
 import {documentsActions} from "@/store/documents/slice.ts";
+import ContentHeader from "@/components/common/contentHeader/ContentHeader.tsx";
 
 interface DocumentsListProps {
     userId?: string;
@@ -91,16 +91,8 @@ function DocumentList(props: DocumentsListProps) {
 
     return (
         <div className="document-page-block w-full h-full flex flex-col">
-            <div className="flex justify-between items-center mb-[40px] max-[850px]:flex-col max-[850px]:justify-center max-[850px]:items-center max-[850px]:gap-[15px]">
-                <div className={"basis-[18%] text-[#03003C] text-[35px] font-medium max-[850px]:w-full max-[850px]:text-center"}>
-                    Documents
-                </div>
-                <div className={"basis-[40%] flex justify-center items-center h-full max-[850px]:w-full"}>
-                    <Input value={searchString} onChange={(e) => setSearchString(e.target.value)}
-                        className={"bg-[#EBEBEB] min-h-[45px] h-full text-[20px] rounded-[15px] p-[15px]"}
-                           placeholder="Search..."/>
-                </div>
-                <div className={"basis-[18%] flex justify-end items-center h-full max-[850px]:w-full"}>
+            <ContentHeader title={'Documents'} searchString={searchString} setSearchString={setSearchString}>
+                <div>
                     <input
                         type="file"
                         accept=".pdf"
@@ -115,7 +107,7 @@ function DocumentList(props: DocumentsListProps) {
                         Upload
                     </Button>
                 </div>
-            </div>
+            </ContentHeader>
             <div
                 className={"documents-list relative grow overflow-scroll h-[400px] grid justify-start gap-[20px] p-[5px] [grid-template-columns:repeat(auto-fill,minmax(300px,1fr))] [grid-template-rows:repeat(auto-fit,230px)] max-[400px]:[grid-template-columns:repeat(auto-fill,minmax(200px,1fr))]"}>
                 {isLoading ? (
