@@ -1,6 +1,11 @@
+import DocumentList from "@/components/common/documentList/DocumentList.tsx";
+import {useParams} from "react-router-dom";
+
 function UserDocuments() {
+    const { userId} = useParams();
+
     return (
-        <div>User DOc</div>
+        <DocumentList userId={userId} />
     );
 }
 

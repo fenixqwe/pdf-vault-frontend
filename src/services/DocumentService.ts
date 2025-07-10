@@ -41,4 +41,10 @@ export default class DocumentService {
 
         return $apiDoc.post(`api/documents/uploadDocument`, formData, options);
     }
+
+    static async uploadDocumentForUser(formData: FormData, userId: string) {
+        const options: AxiosRequestConfig = {headers: {'Content-Type': 'multipart/form-data'}};
+
+        return $apiDoc.post(`api/documents/uploadDocumentForUser/${userId}`, formData, options);
+    }
 }

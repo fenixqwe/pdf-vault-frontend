@@ -18,12 +18,14 @@ import EditUserModal from "@/components/pages/admin/userList/editUserModal/EditU
 import {useState} from "react";
 import {Badge} from "@/components/ui/badge.tsx";
 import MyAlertDialog from "@/components/common/MyAlertDialog/MyAlertDialog.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface UserCardProps {
     user: AdminUsers
 }
 
 function UserCard(props: UserCardProps) {
+    const navigate = useNavigate();
     const { user } = props;
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -51,7 +53,8 @@ function UserCard(props: UserCardProps) {
     }
 
     return (
-        <div className={`user-card relative ${currentUser?.user_id === user.user_id ? 'bg-[#57534E]' : 'bg-[#1E293B]'} rounded-[10px] px-[15px] py-[10px] flex flex-col cursor-pointer shadow-[0_0_4px_rgba(0,0,0,0.25)] hover:shadow-[0_0_8px_rgba(0,0,0,0.5)] transition-shadow duration-300`}>
+        <div onClick={() => navigate(`/main/admin-panel/documents/${user.user_id}`)}
+            className={`user-card relative ${currentUser?.user_id === user.user_id ? 'bg-[#57534E]' : 'bg-[#1E293B]'} rounded-[10px] px-[15px] py-[10px] flex flex-col cursor-pointer shadow-[0_0_4px_rgba(0,0,0,0.25)] hover:shadow-[0_0_8px_rgba(0,0,0,0.5)] transition-shadow duration-300`}>
             {currentUser?.user_id === user.user_id && (
                 <Badge className={'absolute right-[15px] bg-[#78716c] text-white'} variant={'secondary'}>You</Badge>
             )}
@@ -76,19 +79,23 @@ function UserCard(props: UserCardProps) {
                 ))}
             </div>
             <div className={"card-actions flex justify-between items-center gap-[10px]"}>
-                <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-                    <DialogTrigger asChild>
-                        <Button className={`rounded-[10px] text-[17px] flex-1 cursor-pointer ${currentUser?.user_id === user.user_id ? 'bg-[#44403C]' : 'bg-[#111827]'} text-[#F3F4F6] hover:bg-[#847BEF]`}>
-                            Edit
+                <div className={'flex-1 w-full h-full'} onClick={(e) => e.stopPropagation()}>
+                    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+                        <DialogTrigger asChild>
+                            <Button className={`rounded-[10px] w-full h-full text-[17px] cursor-pointer ${currentUser?.user_id === user.user_id ? 'bg-[#44403C]' : 'bg-[#111827]'} text-[#F3F4F6] hover:bg-[#847BEF]`}>
+                                Edit
+                            </Button>
+                        </DialogTrigger>
+                        <EditUserModal onClose={() => setModalOpen(false)} userData={user} />
+                    </Dialog>
+                </div>
+                <div className={'flex-1'} onClick={(e) => e.stopPropagation()}>
+                    <MyAlertDialog title={'Are you absolutely sure?'} description={`This action cannot be undone. This will permanently delete this account and remove this data from our servers.`} continueFunction={handleUserDelete}>
+                        <Button className={`rounded-[10px] w-full h-full text-[17px] flex-1 cursor-pointer ${currentUser?.user_id === user.user_id ? 'bg-[#44403C]' : 'bg-[#111827]'} text-[#F3F4F6] hover:bg-[#E87474]`}>
+                            Delete
                         </Button>
-                    </DialogTrigger>
-                    <EditUserModal onClose={() => setModalOpen(false)} userData={user} />
-                </Dialog>
-                <MyAlertDialog title={'Are you absolutely sure?'} description={`This action cannot be undone. This will permanently delete this account and remove this data from our servers.`} continueFunction={handleUserDelete}>
-                    <Button className={`rounded-[10px] text-[17px] flex-1 cursor-pointer ${currentUser?.user_id === user.user_id ? 'bg-[#44403C]' : 'bg-[#111827]'} text-[#F3F4F6] hover:bg-[#E87474]`}>
-                        Delete
-                    </Button>
-                </MyAlertDialog>
+                    </MyAlertDialog>
+                </div>
             </div>
         </div>
     );

@@ -19,7 +19,7 @@ function ContentHeader(props: ContentHeaderProps) {
                 {title}
             </div>
             <div className={"basis-[40%] flex justify-center items-center h-full max-[850px]:w-full"}>
-                <Input value={searchString} onChange={(e) => setSearchString(e.target.value)}
+                <Input value={searchString} onChange={(e) => setSearchString(e.target.value)} id="search-input"
                        className={"bg-[#EBEBEB] min-h-[45px] h-full text-[20px] rounded-[15px] p-[15px]"}
                        placeholder="Search..."/>
             </div>
