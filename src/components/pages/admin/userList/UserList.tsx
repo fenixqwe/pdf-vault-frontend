@@ -11,6 +11,8 @@ import {LoaderCircle} from "lucide-react";
 import NoElementYet from "@/components/common/NoElementYet/NoElementYet.tsx";
 import UserCard from "@/components/pages/admin/userList/userCard/UserCard.tsx";
 
+import noUsersIcon from "@/assets/no-users.svg"
+
 interface UserListProps {
     searchString: string;
 }
@@ -53,7 +55,7 @@ function UserList(props: UserListProps) {
                         <UserCard user={user} key={user.user_id}/>
                     ))
                 ) : (
-                    <NoElementYet/>
+                    <NoElementYet text={`You don't have any users yet`} image={noUsersIcon}/>
                 )
             )}
         </div>

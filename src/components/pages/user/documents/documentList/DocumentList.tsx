@@ -21,6 +21,7 @@ import MySpinner from "@/components/common/MySpinner/MySpinner.tsx";
 import uploadIcon from "@/assets/upload.svg";
 import returnIcon from "@/assets/returnIcon.svg";
 import dragAndDropIcon from "@/assets/dragAndDropIcon.svg";
+import noDocumentsImage from "@/assets/no-documents.svg"
 
 interface DocumentsListProps {
     userId?: string;
@@ -156,7 +157,7 @@ function DocumentList(props: DocumentsListProps) {
     return (
         <div className="document-page-block w-full h-full flex flex-col">
             <ContentHeader title={'Documents'} searchString={searchString} setSearchString={setSearchString}>
-                <div className={`flex gap-[5px] h-full`}>
+                <div className={`flex gap-[5px] h-full max-[850px]:flex-col max-[850px]:w-full`}>
                     <div className={'w-full h-full'}>
                         <input
                             type="file"
@@ -174,12 +175,14 @@ function DocumentList(props: DocumentsListProps) {
                         </Button>
                     </div>
                     {user?.role === UserRoles.ADMIN && (
-                        <Button
-                            onClick={() => navigate(`/main/admin-panel`)}
-                            className={"min-w-[200px] bg-[#1F2937] h-full text-[20px] flex justify-center items-center rounded-[15px] transition duration-300 hover:bg-[#847BEF] cursor-pointer max-[850px]:w-full"}>
-                            <img src={returnIcon} alt="icon"/>
-                            Return
-                        </Button>
+                        <div>
+                            <Button
+                                onClick={() => navigate(`/main/admin-panel`)}
+                                className={"min-w-[200px] bg-[#1F2937] h-full text-[20px] flex justify-center items-center rounded-[15px] transition duration-300 hover:bg-[#847BEF] cursor-pointer max-[850px]:w-full"}>
+                                <img src={returnIcon} alt="icon"/>
+                                Return
+                            </Button>
+                        </div>
                     )}
                 </div>
             </ContentHeader>
@@ -195,7 +198,7 @@ function DocumentList(props: DocumentsListProps) {
                                 <DocumentCard doc={document} key={document.document_id}/>
                             ))
                         ) : (
-                            <NoElementYet/>
+                            <NoElementYet text={`You don't have any documents yet`} image={noDocumentsImage}/>
                         )
                     )}
                 </div>

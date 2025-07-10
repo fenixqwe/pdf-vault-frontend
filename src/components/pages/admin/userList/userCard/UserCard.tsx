@@ -75,7 +75,7 @@ function UserCard(props: UserCardProps) {
                     <div key={index}>
                         <div className="flex items-center gap-[15px] py-[5px]">
                             <img src={item.icon} alt="" />
-                            <p className="text-white">{item.label}</p>
+                            <p className="text-white truncate max-w-full overflow-hidden">{item.label}</p>
                         </div>
                         {index !== arr.length - 1 && (
                             <div className="h-[2px] rounded-full bg-white" />
