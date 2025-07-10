@@ -1,12 +1,14 @@
 import React from "react";
-import {useAppSelector} from "@/hooks/redux.ts";
+
 import {Navigate} from "react-router-dom";
+
+import {useAuth} from "@/hooks/useAuth.ts";
 
 export const ProtectedRoute = ({children, allowedRoles}: {
     children: React.ReactElement;
     allowedRoles: string[];
 }) => {
-    const { isAuth, userData } = useAppSelector((state) => state.user);
+    const { isAuth, userData } = useAuth();
 
     if (!isAuth) return <Navigate to="/" replace />;
     if (!allowedRoles.includes(userData?.role!)) return <Navigate to="/main" replace />;

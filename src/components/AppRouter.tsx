@@ -1,9 +1,11 @@
 import {Route, Routes} from "react-router-dom";
-import {useAppSelector} from "@/hooks/redux.ts";
+
+import {useAuth} from "@/hooks/useAuth.ts";
+
 import {privateRoutes, publicRoutes, type RouteItem} from "@/router";
 
 const AppRouter = () => {
-    const isAuth = useAppSelector((state) => state.user.isAuth);
+    const {isAuth} = useAuth();
 
     const getRouteFromTree = (routeTree: RouteItem[]) => {
         return routeTree.map((route) => (

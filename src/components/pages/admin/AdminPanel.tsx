@@ -1,13 +1,17 @@
-import ContentHeader from "@/components/common/contentHeader/ContentHeader.tsx";
+import RoleService from "@/services/RoleService.ts";
+
 import {useEffect, useState} from "react";
+import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
+
+import {rolesActions} from "@/store/roles/slice.ts";
+
+import ContentHeader from "@/components/common/contentHeader/ContentHeader.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import addIcon from "@/assets/plus.svg";
 import UserList from "@/components/pages/admin/userList/UserList.tsx";
 import {Dialog, DialogTrigger} from "@/components/ui/dialog.tsx";
 import CreateUserModal from "@/components/pages/admin/userList/createUserModal/CreateUserModal.tsx";
-import RoleService from "@/services/RoleService.ts";
-import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
-import {rolesActions} from "@/store/roles/slice.ts";
+
+import addIcon from "@/assets/plus.svg";
 
 function AdminPanel() {
     const [searchString, setSearchString] = useState('');

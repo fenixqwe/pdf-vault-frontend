@@ -1,12 +1,16 @@
+import AuthService from "@/services/AuthService.ts";
+
+import {useActionCreators} from "@/hooks/redux.ts";
+import {userActions} from "@/store/user/slice.ts";
+import {useAuth} from "@/hooks/useAuth.ts";
+
+import {Button} from "@/components/ui/button.tsx";
+
 import logo from "@/assets/pdf_logo.svg"
 import logoutImg from "@/assets/logout.svg"
-import {Button} from "@/components/ui/button.tsx";
-import AuthService from "@/services/AuthService.ts";
-import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
-import {userActions} from "@/store/user/slice.ts";
 
 function HeaderBar() {
-    const sessionId = useAppSelector((state) => state.user.sessionId);
+    const { sessionId } = useAuth();
 
     const userAction = useActionCreators(userActions);
 

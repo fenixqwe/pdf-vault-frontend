@@ -1,17 +1,22 @@
-import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
-import {adminUsersActions} from "@/store/adminUsers/slice.ts";
 import {z} from "zod";
+import {toast} from "sonner";
+import isEqual from 'lodash/isEqual';
+
+import UserService from "@/services/UserService.ts";
+
+import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+
+import {adminUsersActions} from "@/store/adminUsers/slice.ts";
+
+import type {AdminUsers} from "@/models/AdminUsers.ts";
+
 import {DialogContent, DialogTitle} from "@/components/ui/dialog.tsx";
 import {Form} from "@/components/ui/form.tsx";
 import MyFormInput from "@/components/common/MyFormInput/MyFormInput.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import MyFormSelect from "@/components/common/MyFormSelect/MyFormSelect.tsx";
-import type {AdminUsers} from "@/models/AdminUsers.ts";
-import isEqual from 'lodash/isEqual';
-import UserService from "@/services/UserService.ts";
-import {toast} from "sonner";
 
 interface EditUserModalProps {
     onClose: () => void;

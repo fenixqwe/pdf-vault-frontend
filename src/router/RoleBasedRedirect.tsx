@@ -1,6 +1,8 @@
 import {Navigate} from "react-router-dom";
-import {UserRoles} from "@/models/User.ts";
+
 import {useAuth} from "@/hooks/useAuth.ts";
+
+import {UserRoles} from "@/models/User.ts";
 
 export const RoleBasedRedirect = () => {
     const { userRole } = useAuth();

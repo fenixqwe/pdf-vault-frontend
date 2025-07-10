@@ -1,36 +1,45 @@
-import MyDocument from "@/components/common/MyDocument/MyDocument.tsx";
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
+
+import {toast} from "sonner";
+
+import DocumentService from "@/services/DocumentService.ts";
+
+import {useEffect, useRef, useState} from "react";
 import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
+import {useNavigate} from "react-router-dom";
+
+import {documentsActions} from "@/store/documents/slice.ts";
+
 import {UserRoles} from "@/models/User.ts";
+
+import DocumentCard from "@/components/pages/user/documents/documentList/documentCard/DocumentCard.tsx";
 import {Button} from "@/components/ui/button.tsx";
+import NoElementYet from "@/components/common/NoElementYet/NoElementYet.tsx";
+import ContentHeader from "@/components/common/contentHeader/ContentHeader.tsx";
+import MySpinner from "@/components/common/MySpinner/MySpinner.tsx";
+
 import uploadIcon from "@/assets/upload.svg";
 import returnIcon from "@/assets/returnIcon.svg";
 import dragAndDropIcon from "@/assets/dragAndDropIcon.svg";
-import DocumentService from "@/services/DocumentService.ts";
-import NoElementYet from "@/components/common/NoElementYet/NoElementYet.tsx";
-import {toast} from "sonner";
-import {documentsActions} from "@/store/documents/slice.ts";
-import ContentHeader from "@/components/common/contentHeader/ContentHeader.tsx";
-import MySpinner from "@/components/common/MySpinner/MySpinner.tsx";
-import {useNavigate} from "react-router-dom";
 
 interface DocumentsListProps {
     userId?: string;
 }
 
 function DocumentList(props: DocumentsListProps) {
+    const { userId } = props;
+
+    const [searchString, setSearchString] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [dragEnter, setDragEnter] = useState<boolean>(false);
+
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
     const navigate = useNavigate();
-    const {userId} = props;
     const user = useAppSelector(state => state.user.userData);
     const documents = useAppSelector(state => state.documents.documents);
 
     const documentsAction = useActionCreators(documentsActions);
-
-    const [searchString, setSearchString] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [dragEnter, setDragEnter] = useState(false);
-
-    const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         user?.role === UserRoles.ADMIN ? getCertainUserDocumentsByAdmin() : getUserDocuments();
@@ -183,7 +192,7 @@ function DocumentList(props: DocumentsListProps) {
                     ) : (
                         documents.length > 0 ? (
                             documents.map((document) => (
-                                <MyDocument doc={document} key={document.document_id}/>
+                                <DocumentCard doc={document} key={document.document_id}/>
                             ))
                         ) : (
                             <NoElementYet/>

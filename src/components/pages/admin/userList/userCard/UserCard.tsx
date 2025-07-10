@@ -1,5 +1,21 @@
+import {toast} from "sonner";
+
+import formatDate from "@/utils/formatDate.ts";
+import formatSessionDuration from "@/utils/formatSessionDuration.ts";
+import UserService from "@/services/UserService.ts";
+
+import {useState} from "react";
+import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
+import {useNavigate} from "react-router-dom";
+
+import {adminUsersActions} from "@/store/adminUsers/slice.ts";
+
 import type {AdminUsers} from "@/models/AdminUsers.ts";
 import {Button} from "@/components/ui/button.tsx";
+import {Dialog, DialogTrigger} from "@/components/ui/dialog.tsx";
+import EditUserModal from "@/components/pages/admin/userList/editUserModal/EditUserModal.tsx";
+import {Badge} from "@/components/ui/badge.tsx";
+import MyAlertDialog from "@/components/common/MyAlertDialog/MyAlertDialog.tsx";
 
 import userIcon from "@/assets/user.svg";
 import mailIcon from "@/assets/mail.svg";
@@ -7,28 +23,17 @@ import phoneIcon from "@/assets/number.svg";
 import roleIcon from "@/assets/role_shield.svg";
 import onlineIcon from "@/assets/online.svg";
 import sessionDurationIcon from "@/assets/time.svg";
-import formatDate from "@/utils/formatDate.ts";
-import formatSessionDuration from "@/utils/formatSessionDuration.ts";
-import UserService from "@/services/UserService.ts";
-import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
-import {adminUsersActions} from "@/store/adminUsers/slice.ts";
-import {toast} from "sonner";
-import {Dialog, DialogTrigger} from "@/components/ui/dialog.tsx";
-import EditUserModal from "@/components/pages/admin/userList/editUserModal/EditUserModal.tsx";
-import {useState} from "react";
-import {Badge} from "@/components/ui/badge.tsx";
-import MyAlertDialog from "@/components/common/MyAlertDialog/MyAlertDialog.tsx";
-import {useNavigate} from "react-router-dom";
 
 interface UserCardProps {
     user: AdminUsers
 }
 
 function UserCard(props: UserCardProps) {
-    const navigate = useNavigate();
     const { user } = props;
 
     const [modalOpen, setModalOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     const currentUser = useAppSelector(state => state.user.userData);
 

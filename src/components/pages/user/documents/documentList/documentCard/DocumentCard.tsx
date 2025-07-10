@@ -1,30 +1,35 @@
+import {toast} from "sonner";
+
+import {useEffect, useState} from "react";
+import {useActionCreators} from "@/hooks/redux.ts";
+
+import {documentsActions} from "@/store/documents/slice.ts";
+
+import DocumentService from "@/services/DocumentService.ts";
+
+import type {Documents} from "@/models/Document.ts";
+
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup, DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
-import DocumentService from "@/services/DocumentService.ts";
-import type {Documents} from "@/models/Document.ts";
 import {Dialog, DialogContent, DialogTitle} from "@/components/ui/dialog.tsx";
-import {useEffect, useState} from "react";
-import {toast} from "sonner";
-import {useActionCreators} from "@/hooks/redux.ts";
-import {documentsActions} from "@/store/documents/slice.ts";
 import MyAlertDialog from "@/components/common/MyAlertDialog/MyAlertDialog.tsx";
 
 interface MyDocumentProps {
     doc: Documents;
 }
 
-function MyDocument(props: MyDocumentProps) {
+function DocumentCard(props: MyDocumentProps) {
     const {doc} = props;
-
-    const documentsAction = useActionCreators(documentsActions);
 
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+    const documentsAction = useActionCreators(documentsActions);
 
     useEffect(() => {
         let timeout: number | null = null;
@@ -41,31 +46,31 @@ function MyDocument(props: MyDocumentProps) {
         };
     }, [isDialogOpen]);
 
+    const downloadPromise = () => new Promise(async (resolve, reject) => {
+        try {
+            const response = await DocumentService.downloadDocument(doc.document_id);
+
+            const blob = new Blob([response.data], {
+                type: response.headers['content-type'],
+            });
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${doc.name || 'document'}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+
+            link.remove();
+            window.URL.revokeObjectURL(url);
+
+            resolve({ name: doc.name });
+        } catch (e: any) {
+            reject("Unknown error while downloading document");
+        }
+    });
+
     async function downloadDocument() {
-        const downloadPromise = () => new Promise(async (resolve, reject) => {
-            try {
-                const response = await DocumentService.downloadDocument(doc.document_id);
-
-                const blob = new Blob([response.data], {
-                    type: response.headers['content-type'],
-                });
-                const url = window.URL.createObjectURL(blob);
-
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `${doc.name || 'document'}.pdf`;
-                document.body.appendChild(link);
-                link.click();
-
-                link.remove();
-                window.URL.revokeObjectURL(url);
-
-                resolve({ name: doc.name });
-            } catch (e: any) {
-                reject("Unknown error while downloading document");
-            }
-        });
-
         toast.promise(downloadPromise(), {
             loading: 'Downloading document...',
             success: (data: any) => `Document "${data.name}" downloaded successfully`,
@@ -178,4 +183,4 @@ function MyDocument(props: MyDocumentProps) {
     );
 }
 
-export default MyDocument;
+export default DocumentCard;

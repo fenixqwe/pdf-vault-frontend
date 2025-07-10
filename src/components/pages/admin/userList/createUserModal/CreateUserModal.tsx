@@ -1,14 +1,18 @@
-import {DialogContent, DialogTitle} from "@/components/ui/dialog.tsx";
 import {z} from "zod";
+import {toast} from "sonner";
+
+import AuthService from "@/services/AuthService.ts";
+
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useActionCreators} from "@/hooks/redux.ts";
+
+import {adminUsersActions} from "@/store/adminUsers/slice.ts";
+
+import {DialogContent, DialogTitle} from "@/components/ui/dialog.tsx";
 import {Form} from "@/components/ui/form.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import MyFormInput from "@/components/common/MyFormInput/MyFormInput.tsx";
-import AuthService from "@/services/AuthService.ts";
-import {useActionCreators} from "@/hooks/redux.ts";
-import {adminUsersActions} from "@/store/adminUsers/slice.ts";
-import {toast} from "sonner";
 
 interface CreateUserModalProps {
     onClose: () => void;
@@ -45,22 +49,22 @@ function CreateUserModal(props: CreateUserModalProps) {
         }, 300);
     }
 
+    const createUserPromise = (cleanedValues: any) => new Promise(async (resolve, reject) => {
+        try {
+            const response = await AuthService.registration(cleanedValues);
+            adminUsersAction.addNewUser(response.data.data);
+            onCloseModal();
+            resolve({email: response.data.data.email})
+        } catch (e: any) {
+            reject(e.response.data.message);
+        }
+    })
+
     async function onSubmit(values: z.infer<typeof createFormSchema>) {
         const cleanedValues = { ...values };
         if (!cleanedValues.number) delete cleanedValues.number;
 
-        const createUserPromise = () => new Promise(async (resolve, reject) => {
-            try {
-                const response = await AuthService.registration(cleanedValues);
-                adminUsersAction.addNewUser(response.data.data);
-                onCloseModal();
-                resolve({email: response.data.data.email})
-            } catch (e: any) {
-                reject(e.response.data.message);
-            }
-        })
-
-        toast.promise(createUserPromise(), {
+        toast.promise(createUserPromise(cleanedValues), {
             loading: 'Creating user...',
             success: (data: any) => `User "${data.email}" was created successfully`,
             error: (errorMessage) => errorMessage,

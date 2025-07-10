@@ -1,11 +1,14 @@
+import AuthService from "@/services/AuthService.ts";
+
+import {useState} from "react";
 import {useActionCreators} from "@/hooks/redux.ts";
 import {userActions} from "@/store/user/slice.ts";
+
+import {Button} from "@/components/ui/button.tsx";
+import MyInput from "@/components/common/MyInput/MyInput.tsx";
+
 import signInLeftImage from "@/assets/login_vector.svg"
 import logo from "@/assets/pdf_logo.svg"
-import {Button} from "@/components/ui/button.tsx";
-import {useState} from "react";
-import AuthService from "@/services/AuthService.ts";
-import MyInput from "@/components/common/MyInput/MyInput.tsx";
 
 function SignIn() {
     const [email, setEmail] = useState("");

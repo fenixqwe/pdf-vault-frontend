@@ -1,13 +1,17 @@
+import React from "react";
+
+import {Navigate} from "react-router-dom";
+
+import {RoleBasedRedirect} from "@/router/RoleBasedRedirect.tsx";
+import {ProtectedRoute} from "@/router/ProtectedRoute.tsx";
+
+import {UserRoles} from "@/models/User.ts";
+
 import SignIn from "@/components/pages/authorization/SignIn";
 import Documents from "@/components/pages/user/documents/Documents";
 import AdminPanel from "@/components/pages/admin/AdminPanel";
-import React from "react";
-import {Navigate} from "react-router-dom";
 import Page from "@/components/pages/Page.tsx";
-import {UserRoles} from "@/models/User.ts";
-import UserDocuments from "@/components/pages/admin/user-documents/UserDocuments.tsx";
-import {RoleBasedRedirect} from "@/router/RoleBasedRedirect.tsx";
-import {ProtectedRoute} from "@/router/ProtectedRoute.tsx";
+import UserDocuments from "@/components/pages/admin/userDocuments/UserDocuments.tsx";
 
 
 export interface RouteItem {

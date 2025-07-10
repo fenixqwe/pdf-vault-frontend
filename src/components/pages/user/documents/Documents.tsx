@@ -1,4 +1,4 @@
-import DocumentList from "@/components/common/documentList/DocumentList.tsx";
+import DocumentList from "@/components/pages/user/documents/documentList/DocumentList.tsx";
 
 function Documents() {
     return (

@@ -1,11 +1,15 @@
+import {toast} from "sonner";
+
+import UserService from "@/services/UserService.ts";
+
+import {useEffect, useState} from "react";
+import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
+
+import {adminUsersActions} from "@/store/adminUsers/slice.ts";
+
 import {LoaderCircle} from "lucide-react";
 import NoElementYet from "@/components/common/NoElementYet/NoElementYet.tsx";
-import {useEffect, useState} from "react";
 import UserCard from "@/components/pages/admin/userList/userCard/UserCard.tsx";
-import {toast} from "sonner";
-import UserService from "@/services/UserService.ts";
-import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
-import {adminUsersActions} from "@/store/adminUsers/slice.ts";
 
 interface UserListProps {
     searchString: string;
@@ -13,6 +17,7 @@ interface UserListProps {
 
 function UserList(props: UserListProps) {
     const { searchString } = props;
+
     const [isLoading, setIsLoading] = useState(false);
 
     const users = useAppSelector(state => state.adminUsers.users);

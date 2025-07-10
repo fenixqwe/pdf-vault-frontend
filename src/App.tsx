@@ -1,13 +1,16 @@
 import {BrowserRouter as Router} from "react-router-dom";
-import AppRouter from "@/components/AppRouter.tsx";
+
 import {useEffect, useState} from "react";
 import {useActionCreators} from "@/hooks/redux.ts";
 import {userActions} from "@/store/user/slice.ts";
+
+import AppRouter from "@/components/AppRouter.tsx";
 import {Toaster} from "@/components/ui/sonner.tsx";
 
 function App() {
-    const userAction = useActionCreators(userActions);
     const [ready, setReady] = useState(false);
+
+    const userAction = useActionCreators(userActions);
 
     useEffect(() => {
         const auth = localStorage.getItem("auth");
