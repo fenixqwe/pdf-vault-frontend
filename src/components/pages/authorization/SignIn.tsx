@@ -6,6 +6,8 @@ import {userActions} from "@/store/user/slice.ts";
 
 import {Button} from "@/components/ui/button.tsx";
 import MyInput from "@/components/common/MyInput/MyInput.tsx";
+import {Input} from "@/components/ui/input.tsx";
+import {Link} from "react-router-dom";
 
 import signInLeftImage from "@/assets/login_vector.svg"
 import logo from "@/assets/pdf_logo.svg"
@@ -64,11 +66,25 @@ function SignIn() {
                             </div>
                         </div>
                         <div className={"sign-in-form mb-[15px]"}>
-                            <MyInput label={'Email Address'} value={email} changeValue={setEmail} id={"loginInput"} type={"text"} name={"email"} />
-                            <MyInput label={'Password'} value={password} changeValue={setPassword} id={"passwordInput"} type={"password"} name={"password"} />
+                            <MyInput label={'Email Address'} value={email} changeValue={setEmail} id={"loginInput"}
+                                     type={"text"} name={"email"}/>
+                            <div className={"flex flex-col mb-[10px]"}>
+                                <div className={'flex justify-between items-center'}>
+                                    <label htmlFor={"passwordInput"}
+                                           className={"text-[15px] font-bold mb-[10px] text-left text-[#636363]"}>
+                                        Password
+                                    </label>
+                                    <Link to={"/resetPassword"} className={"no-underline text-[#4D3CC1]"}>
+                                        Forgot password?
+                                    </Link>
+                                </div>
+                                <Input type={"password"} id={"passwordInput"} name={"password"} value={password}
+                                       onChange={(e) => setPassword(e.target.value)}
+                                       className={"rounded-[8px] border-none px-2 py-3 outline-none text-sm bg-[#EBEBEB] text-[#000000]"}/>
+                            </div>
                             <div className={"auth-btn"}>
                                 <Button onClick={signIn} disabled={inProgress}
-                                    className={"w-full cursor-pointer text-white text-[14px] rounded-[10px] !border-none !transition-all !duration-500 h-[45px] !bg-[#D85888] hover:!bg-[#847BEF]"}>
+                                        className={"w-full cursor-pointer text-white text-[14px] rounded-[10px] !border-none !transition-all !duration-500 h-[45px] !bg-[#D85888] hover:!bg-[#847BEF]"}>
                                     Sign in
                                 </Button>
                             </div>

@@ -12,6 +12,10 @@ import Documents from "@/components/pages/user/documents/Documents";
 import AdminPanel from "@/components/pages/admin/AdminPanel";
 import Page from "@/components/pages/Page.tsx";
 import UserDocuments from "@/components/pages/admin/userDocuments/UserDocuments.tsx";
+import ResetPassword from "@/components/pages/authorization/resetPassword/ResetPassword.tsx";
+import StepOne from "@/components/pages/authorization/resetPassword/stepOne/StepOne.tsx";
+import StepTwo from "@/components/pages/authorization/resetPassword/stepTwo/StepTwo.tsx";
+import StepThree from "@/components/pages/authorization/resetPassword/stepThree/StepThree.tsx";
 
 
 export interface RouteItem {
@@ -24,6 +28,13 @@ export interface RouteItem {
 
 export const publicRoutes: RouteItem[] = [
     { path: "/", component: <SignIn /> },
+    {
+        path: "/resetPassword", component: <ResetPassword/>, children: [
+            {index: true, component: <StepOne/>},
+            {path: "newPassword", component: <StepTwo/>},
+            {path: "passwordUpdated", component: <StepThree/>}
+        ]
+    },
     { path: "*", component: <Navigate to="/" replace /> }
 ];
 

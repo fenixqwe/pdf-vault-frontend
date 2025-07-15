@@ -30,4 +30,17 @@ export default class AuthService {
 
         return $apiUser.post(`api/auth/logout?sessionId=${sessionId}`, options);
     }
+
+    static async requestResetPassword(email: string) {
+        const options = {headers: this.headers};
+
+        return $apiUser.post('api/auth/requestResetPassword', {"email": email}, options);
+    }
+
+    static async resetPassword(token: string, new_password: string) {
+        const options = {headers: this.headers};
+        const passwordResetData = {token: token, new_password: new_password};
+
+        return $apiUser.post('api/auth/resetPassword', passwordResetData, options);
+    }
 }
