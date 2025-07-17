@@ -64,14 +64,14 @@ function StepTwo() {
 
     return (
         <>
-            <div className={'step-two-form-wrap w-[350px]'}>
+            <div className={'step-two-form-wrap w-[350px] max-[520px]:box-border max-[520px]:w-full max-[520px]:p-[20px]'}>
                 <div>
                     <div className={'step-two-head text-center mb-[40px]'}>
                         <div className={'flex items-center justify-center mb-[20px]'}>
                             <img src={logo} alt="" className={'w-[80px] h-[80px] cursor-pointer'}/>
                         </div>
                         <div className={'mb-[34px] flex items-center justify-center'}>
-                            <h2 className={'text-[30px] leading-[36px] font-normal mr-[10px]'}>Email confirmed</h2>
+                            <h2 className={'text-[30px] leading-[36px] font-normal mr-[10px] max-[520px]:text-[25px]'}>Email confirmed</h2>
                             <img src={confirmLogo} alt=""/>
                         </div>
                         <div>
@@ -91,23 +91,6 @@ function StepTwo() {
                             </div>
                         </form>
                     </Form>
-                    {/*<div className={'step-two-form'}>*/}
-                    {/*    <div>*/}
-                    {/*        <MyInput label={'New password'} value={newPassword} changeValue={setNewPassword}*/}
-                    {/*                 id={"passwordInput"}*/}
-                    {/*                 type={"password"} name={"password"}/>*/}
-                    {/*    </div>*/}
-                    {/*    <div>*/}
-                    {/*        <MyInput label={'New password confirmation'} value={confirmPassword} changeValue={setConfirmPassword}*/}
-                    {/*                 id={"passwordConfirmInput"}*/}
-                    {/*                 type={"password"} name={"password"}/>*/}
-                    {/*    </div>*/}
-                    {/*    <div>*/}
-                    {/*        <Button className={'w-full text-[14px] cursor-pointer h-[45px] bg-[#D85888] hover:!bg-[#847BEF] transition-all duration-500'} onClick={changePassword}>*/}
-                    {/*            Change password*/}
-                    {/*        </Button>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             </div>
             <div className={'flex justify-center w-full'}>

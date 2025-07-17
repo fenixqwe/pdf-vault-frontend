@@ -36,14 +36,14 @@ function StepOne() {
 
     return (
         <>
-            <div className={'step-one-form-wrap w-[350px]'}>
+            <div className={'step-one-form-wrap w-[350px] max-[520px]:box-border max-[520px]:w-full max-[520px]:p-[20px]'}>
                 <div>
                     <div className={'head text-center mb-[40px]'}>
                         <div className={'flex items-center justify-center mb-[20px]'}>
                             <img src={logo} alt="" className={'w-[80px] h-[80px] cursor-pointer'}/>
                         </div>
                         <div className={'mb-[34px]'}>
-                            <h2 className={'text-[30px] leading-[36px] font-normal'}>
+                            <h2 className={'text-[30px] leading-[36px] font-normal max-[520px]:text-[25px]'}>
                                 Want to change your password ?
                             </h2>
                         </div>

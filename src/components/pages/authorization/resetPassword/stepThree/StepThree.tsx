@@ -12,15 +12,16 @@ function StepThree() {
             navigate('/signIn');
         }, 3000);
     }, []);
+
     return (
-        <div className={'w-[350px]'}>
+        <div className={'w-[350px] max-[520px]:box-border max-[520px]:w-full max-[520px]:p-[20px]'}>
             <div>
                 <div className={'text-center mb-[40px]'}>
                     <div className={'flex items-center justify-center mb-[20px]'}>
                         <img src={logo} alt="" className={'w-[80px] h-[80px] cursor-pointer'}/>
                     </div>
                     <div className={'mb-[34px] flex items-center justify-center'}>
-                        <h2 className={'text-[30px] leading-[36px] font-normal mr-[10px]'}>Email confirmed</h2>
+                        <h2 className={'text-[30px] leading-[36px] font-normal mr-[10px] max-[520px]:text-[25px]'}>Email confirmed</h2>
                         <img src={confirmLogo} alt=""/>
                     </div>
                     <div>

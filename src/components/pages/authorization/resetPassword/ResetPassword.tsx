@@ -13,7 +13,7 @@ function ResetPassword() {
                 <div className={"company-block w-full flex flex-col items-center justify-center"}>
                     <img className={"max-w-full max-h-[500px] mb-[20px] pointer-events-none"} src={signInLeftImage}
                          alt=""/>
-                    <h1 className={"text-[#E2E8F0] text-center !text-[40px] font-medium max-[1250px]:text-[30px] max-[1024px]:text-[34px]"}>
+                    <h1 className={"text-[#E2E8F0] text-center !text-[40px] font-medium max-[1250px]:text-[30px] max-[1024px]:text-[34px] max-[1024px]:text-[34px]"}>
                         Upload, store, and share documents with ease
                         thanks to <span className={"text-[#847BEF]"}>PDF Vault</span>
                     </h1>
