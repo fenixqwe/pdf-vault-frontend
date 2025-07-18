@@ -172,9 +172,8 @@ function DocumentCard(props: MyDocumentProps) {
                         {previewUrl && (
                             <object
                                 data={previewUrl}
-                                type="application/pdf"
-                                width="100%"
-                                height="800px" />
+                                className={'w-full h-[800px] max-[800px]:h-[500px] max-[500px]:h-[400px]'}
+                                type="application/pdf"/>
                         )}
                     </div>
                 </DialogContent>

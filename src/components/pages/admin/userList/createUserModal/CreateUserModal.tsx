@@ -80,9 +80,9 @@ function CreateUserModal(props: CreateUserModalProps) {
                     <MyFormInput label={'Email'} name={'email'} type={'email'} form={form} />
                     <MyFormInput label={'Number'} name={'number'} type={'tel'} form={form} />
                     <MyFormInput label={'Password'} name={'password'} type={'password'} form={form} />
-                    <div className={"flex items-center justify-between mt-[15px]"}>
-                        <Button type="button" onClick={onCloseModal} className={"cursor-pointer bg-[#111827] hover:bg-[#E87474] text-[15px] px-[40px] py-[20px]"}>Cancel</Button>
-                        <Button type="submit" className={"cursor-pointer bg-[#111827] hover:bg-[#847BEF] text-[15px] px-[40px] py-[20px]"}>Create</Button>
+                    <div className={"flex items-center justify-between mt-[15px] max-[380px]:flex-col max-[380px]:gap-[5px]"}>
+                        <Button type="button" onClick={onCloseModal} className={"cursor-pointer bg-[#111827] hover:bg-[#E87474] text-[15px] px-[40px] py-[20px] max-[380px]:w-full"}>Cancel</Button>
+                        <Button type="submit" className={"cursor-pointer bg-[#111827] hover:bg-[#847BEF] text-[15px] px-[40px] py-[20px] max-[380px]:w-full"}>Create</Button>
                     </div>
                 </form>
             </Form>

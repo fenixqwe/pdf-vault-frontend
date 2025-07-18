@@ -208,8 +208,8 @@ function DocumentList(props: DocumentsListProps) {
                      onDragOver={dragEnterHandler}
                      onDrop={dropHandler}
                     className={'h-full flex flex-col justify-center items-center bg-[#CBD5E1] border-[#878585] border-2 border-dashed transition duration-300'}>
-                    <img className={'w-[275px] h-[275px] mb-[15px]'} src={dragAndDropIcon} alt=""/>
-                    <h2 className={'text-[30px] font-semibold'}>Drag and drop or browse to choose a file</h2>
+                    <img className={'w-[275px] h-[275px] mb-[15px] max-[700px]:w-[225px] max-[700px]:h-[225px] max-[450px]:w-[160px] max-[450px]:h-[160px]'} src={dragAndDropIcon} alt=""/>
+                    <h2 className={'text-[30px] font-semibold max-[800px]:text-center max-[500px]:text-[24px]'}>Drag and drop or browse to choose a file</h2>
                 </div>
             )}
         </div>
