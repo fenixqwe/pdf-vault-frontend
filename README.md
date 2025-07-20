@@ -1,12 +1,17 @@
+## 🧪 Вимоги
+### Node.js >= 18
+
+### npm або yarn
+
 ## 📦 Встановлення
 
-1. **Склонуйте репозиторій:**
+### 1. **Склонуйте репозиторій:**
 
 ```bash
-git clone https://github.com/your-username/your-frontend-repo.git
+git clone https://github.com/fenixqwe/pdf-vault-frontend.git
 ```
 
-2. **Встановіть залежності:**
+### 2. **Встановіть залежності:**
 ```bash
 npm install
 ```
@@ -23,8 +28,3 @@ npm run dev
 VITE_API_USER_URL=http://localhost:5001
 VITE_API_DOC_URL=http://localhost:5000
 ```
-
-## 🧪 Вимоги
-Node.js >= 18
-
-npm або yarn
