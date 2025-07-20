@@ -7,6 +7,7 @@ import UserService from "@/services/UserService.ts";
 import {useActionCreators, useAppSelector} from "@/hooks/redux.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useEffect} from "react";
 
 import {adminUsersActions} from "@/store/adminUsers/slice.ts";
 
@@ -30,6 +31,15 @@ function EditUserModal(props: EditUserModalProps) {
 
     const adminUsersAction = useActionCreators(adminUsersActions);
 
+    useEffect(() => {
+        form.reset({
+            name: userData.name,
+            email: userData.email,
+            number: userData.number || '',
+            role: userData.role || 'USER',
+        });
+    }, [userData]);
+
     const editFormSchema = z.object({
         name: z.string().min(2, "The name must contain a minimum of 2 characters").max(50),
         email: z.string().email("Incorrect email format"),
@@ -51,13 +61,6 @@ function EditUserModal(props: EditUserModalProps) {
         }
     });
 
-    function onCloseModal() {
-        onClose();
-        window.setTimeout(() => {
-            form.reset();
-        }, 300);
-    }
-
     function getChangedValues<T extends Record<string, any>>(
         currentValues: T,
         initialValues: T
@@ -75,7 +78,7 @@ function EditUserModal(props: EditUserModalProps) {
             const response = await UserService.updateUser(changedValues, userData.user_id);
             changedValues.user_id = userData.user_id;
             adminUsersAction.updateUser(response.data.data);
-            onCloseModal();
+            onClose();
 
             resolve(response.data.message)
         } catch (e: any) {
@@ -108,7 +111,7 @@ function EditUserModal(props: EditUserModalProps) {
     }
 
     return (
-        <DialogContent showCloseButton={false} aria-describedby={undefined} onPointerDownOutside={onCloseModal}>
+        <DialogContent showCloseButton={false} aria-describedby={undefined} onPointerDownOutside={onClose}>
             <DialogTitle className={"text-[35px] flex justify-center items-center"}>Edit User</DialogTitle>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className={'flex flex-col gap-[10px]'}>
@@ -117,7 +120,7 @@ function EditUserModal(props: EditUserModalProps) {
                     <MyFormInput label={'Number'} name={'number'} type={'tel'} form={form} />
                     <MyFormSelect label={'Role'} name={'role'} form={form} selectArr={roles.map((role) => role.name)} />
                     <div className={"flex items-center justify-between mt-[15px] max-[380px]:flex-col max-[380px]:gap-[5px]"}>
-                        <Button type="button" onClick={onCloseModal} className={"cursor-pointer bg-[#111827] hover:bg-[#E87474] text-[15px] px-[40px] py-[20px] max-[380px]:w-full"}>Cancel</Button>
+                        <Button type="button" onClick={onClose} className={"cursor-pointer bg-[#111827] hover:bg-[#E87474] text-[15px] px-[40px] py-[20px] max-[380px]:w-full"}>Cancel</Button>
                         <Button type="submit" className={"cursor-pointer bg-[#111827] hover:bg-[#847BEF] text-[15px] px-[40px] py-[20px] max-[380px]:w-full"}>Edit</Button>
                     </div>
                 </form>

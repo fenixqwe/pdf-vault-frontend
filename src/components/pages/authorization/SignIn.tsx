@@ -1,3 +1,5 @@
+import {toast} from "sonner";
+
 import AuthService from "@/services/AuthService.ts";
 
 import {useState} from "react";
@@ -19,7 +21,7 @@ function SignIn() {
 
     const userAction = useActionCreators(userActions);
 
-    const signIn = async () => {
+    const signInPromise = () => new Promise(async (resolve, reject) => {
         try {
             setInProgress(true);
             const response = await AuthService.login(email, password);
@@ -37,10 +39,17 @@ function SignIn() {
                 number: response.data.data.number,
                 role: response.data.data.role,
             });
-        } catch (e) {
-            console.log(e);
+            resolve(response.data.message)
+        } catch (e: any) {
+            reject(e.response.data.message);
             setInProgress(false);
         }
+    });
+
+    const signIn = async () => {
+        toast.promise(signInPromise(), {
+            error: (errorMessage) => errorMessage,
+        });
     }
     return (
         <div className={"bg-[#1E293B] flex min-h-screen"}>
