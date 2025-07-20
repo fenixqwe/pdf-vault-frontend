@@ -2,7 +2,7 @@ import axios from "axios";
 import {setupInterceptor} from "@/http/setupInterceptor.ts";
 
 const $apiUser = axios.create({
-    baseURL: "http://localhost:5001",
+    baseURL: import.meta.env.VITE_API_USER_URL,
 })
 
 $apiUser.interceptors.request.use(config => {
